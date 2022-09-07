@@ -14,7 +14,6 @@ app.use(adminRouter);
 app.use(placesRouter);
 app.use(userRouter);
 
-
 app.listen(port, function(){
     console.log('Server start on port ' + port +'.')
 });
