@@ -70,28 +70,28 @@ router.post('/user/aroundPlaces', async (req, res) => {
 
     var geocoderURL = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + longitude + "," + latitude + ".json?country=lk&limit=1&types=region&access_token=" + process.env.GEOCODER_API_KEY;
 
-    https.get(geocoderURL, function (response) {
+    https.get(geocoderURL, async (response) => {
 
         console.log(response.statusCode);
 
-        response.on('data', function (data) {
+        await response.on('data', async (data) => {
 
             const locationData = JSON.parse(data);
-            const nearestCity = locationData.features[0].text;
+            const nearestCity = await locationData.features[0].text;
             console.log(nearestCity);
+
+            try {
+
+                const coordinates = await({ "latitude": latitude, "longitude": longitude, "nearest city": nearestCity });
+                res.status(201).send(coordinates);
+
+            } catch (e) {
+                console.log(e);
+            }
 
         });
 
     });
-
-    try {
-        
-        const coordinates = await ({ "latitude": latitude, "longitude": longitude });
-        res.status(201).send(coordinates);
-
-    } catch (e) {
-        console.log(e);
-    }
 
 });
 
