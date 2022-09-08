@@ -10,7 +10,7 @@ const placeSchema = new mongoose.Schema({
     image: {
         type: String
     },
-    province: {
+    district: {
         type: String,
         required: true
     },
