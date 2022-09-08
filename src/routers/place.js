@@ -7,13 +7,13 @@ router.post('/admin/addPlace', async (req, res) => {
 
     var placeName = req.body.name;
     var placImage = req.body.image;
-    var placeCity = req.body.city;
+    var placeProvince = req.body.province;
     var placeDescription = req.body.description;
 
     const place = new Place({
         name: placeName,
         image: placImage,
-        city: placeCity,
+        province: placeProvince,
         description: placeDescription
     });
 
