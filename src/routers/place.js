@@ -80,9 +80,10 @@ router.post('/user/aroundPlaces', async (req, res) => {
             const nearestCity = await locationData.features[0].text;
             console.log(nearestCity);
 
+
             try {
 
-                const coordinates = await({ "latitude": latitude, "longitude": longitude, "nearest city": nearestCity });
+                const coordinates = await ({ "latitude": latitude, "longitude": longitude, "nearest city": nearestCity });
                 res.status(201).send(coordinates);
 
             } catch (e) {
