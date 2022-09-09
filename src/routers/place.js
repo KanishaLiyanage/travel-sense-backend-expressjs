@@ -71,7 +71,7 @@ router.post('/user/home/placesAroundYou', async (req, res) => {
         const places = await Place.find({ district: nearestCity },
             function (err, foundPlace) {
                 if (foundPlace) {
-                    res.send(foundPlace);
+                    res.status(201).send(foundPlace);
                 } else {
                     res.send("No matches");
                 }
