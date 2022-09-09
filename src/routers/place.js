@@ -63,37 +63,25 @@ router.delete('/admin/:placeID', async (req, res) => {
 
 });
 
-router.post('/user/aroundPlaces', async (req, res) => {
+router.post('/user/home/placesAroundYou', async (req, res) => {
 
-    var latitude = req.body.latitude;
-    var longitude = req.body.longitude;
+    var nearestCity = req.body.nearestCity;
 
-    var geocoderURL = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + longitude + "," + latitude + ".json?country=lk&limit=1&types=region&access_token=" + process.env.GEOCODER_API_KEY;
+    try {
+        const places = await Place.find({ district: nearestCity },
+            function (err, foundPlace) {
+                if (foundPlace) {
+                    res.send(foundPlace);
+                } else {
+                    res.send("No matches");
+                }
+            });
 
-    https.get(geocoderURL, async (response) => {
-
-        console.log(response.statusCode);
-
-        await response.on('data', async (data) => {
-
-            const locationData = JSON.parse(data);
-            const nearestCity = await locationData.features[0].text;
-            console.log(nearestCity);
-
-
-            try {
-
-                const coordinates = await ({ "latitude": latitude, "longitude": longitude, "nearest city": nearestCity });
-                res.status(201).send(coordinates);
-
-            } catch (e) {
-                console.log(e);
-            }
-
-        });
-
-    });
-
+        console.log(places);
+        // res.status(200).send(places);
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 module.exports = router;
