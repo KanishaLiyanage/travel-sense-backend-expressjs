@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const Place = require('../models/place');
-const https = require('https');
 
 const router = new express.Router();
 
